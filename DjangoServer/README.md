@@ -17,9 +17,18 @@
 ### shop
 - <a href="https://github.com/SeongJun2Moon/MSAProject/tree/main/DjangoServer/shop/fashion/코드내이론.md">fashion</a>
 - <a href="https://github.com/SeongJun2Moon/MSAProject/tree/main/DjangoServer/shop/iris/코드내이론.md">iris</a>
-- <a href="https://github.com/SeongJun2Moon/MSAProject/tree/main/DjangoServer/shop/fruits">iris</a>
+- <a href="https://github.com/SeongJun2Moon/MSAProject/tree/main/DjangoServer/shop/fruits">fruits</a>
 ### webcrawler
 - <a href="https://github.com/SeongJun2Moon/MSAProject/tree/main/DjangoServer/webcrawler/코드내이론.md">webcrawler</a>
+### security
+- <a href="https://github.com/SeongJun2Moon/MSAProject/tree/main/DjangoServer/security/users/README.md">db로 데이터프레임 보내기2</a>
+  - sqlalchemy.exc.DataError: (pymysql.err.DataError) (1366, "Incorrect string value)
+
+
+
+
+
+
 
 # ignore 설정 : yolov5
 ### 주소 : https://github.com/ultralytics/yolov5

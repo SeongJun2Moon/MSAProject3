@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "blog",
-    "movies",
-    "shop",
+    "blog.busers","blog.comments","blog.posts","blog.tags","blog.views",
+    "movies.musers","movies.cinema","movies.movies","movies.showtimes","movies.theaterticket","movies.theater",
+    "shop.susers","shop.carts","shop.categories","shop.deliveries","shop.orders","shop.products",
+    "security.users",
+    "nlp.samsung_report",
+    "webcrawler.webcrawler",
     "rest_framework"
 ]
 

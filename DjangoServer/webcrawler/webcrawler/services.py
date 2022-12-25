@@ -7,14 +7,14 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 
-from webcrawler.models import Scrap
+from webcrawler.webcrawler.models import Scrap
 
 
 class ScrapServeice(Scrap):
     def __init__(self):
         global driverpath, naver_url, savepath, encoding
-        driverpath = "./webcrawler/chromedriver.exe"
-        savepath = "./webcrawler/save/naver.csv"
+        driverpath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/webcrawler/webcrawler/chromedriver.exe"
+        savepath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/webcrawler/save/naver.csv"
         naver_url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver"
         encoding = "UTF-8"
 
@@ -59,6 +59,8 @@ class ScrapServeice(Scrap):
             naver_csv = pd.read_csv(savepath, header=None, index_col=0)
             naver_list = list(naver_csv.index)
             naver_json = [{"rank":i, "title":j} for i,j in enumerate(naver_list)]
+            print(naver_json)
+            print(type(naver_json))
             return naver_json
         else:
             driver = webdriver.Chrome(driverpath)
@@ -67,11 +69,11 @@ class ScrapServeice(Scrap):
             all_divs = soup.find_all('div', attrs={'class': 'tit3'})
             products = [div.a.string for div in all_divs]
             print(products)
-            df = pd.Series(products) # 리스트나 딕셔너리를 시리즈형식으로 출력
-            print(type(df))
-            df.index = df.index + 1
-            print(df)
-            df.to_csv(savepath, na_rep="NaN", header=None, index=None)
+            sr = pd.Series(products) # 리스트나 딕셔너리를 시리즈형식으로 출력
+            print(type(sr))
+            sr.index = sr.index + 1
+            print(sr)
+            sr.to_csv(savepath, na_rep="NaN", header=None, index=None)
             driver.close()
             naver_csv = pd.read_csv(savepath, header=None, index_col=0)
             print(naver_csv.index)

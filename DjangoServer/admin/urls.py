@@ -24,6 +24,6 @@ urlpatterns = [
     path("shop/iris/", include("shop.iris.urls")),
     path("shop/fashion", include("shop.fashion.urls")),
     path("shop/number", include("shop.number.url")),
-    path("webcrawler", include("webcrawler.urls")),
-    path("samsung", include("nlp.urls")),
+    path("webcrawler", include("webcrawler.webcrawler.urls")),
+    path("samsung", include("nlp.samsung_report.urls")),
 ]

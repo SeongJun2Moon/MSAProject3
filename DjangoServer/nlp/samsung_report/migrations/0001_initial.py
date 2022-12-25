@@ -12,15 +12,15 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Busers',
+            name='SamsungReport',
             fields=[
-                ('blog_id', models.IntegerField(primary_key=True, serialize=False)),
-                ('email', models.TextField()),
-                ('nickname', models.TextField()),
-                ('password', models.TextField()),
+                ('id', models.IntegerField(primary_key=True, serialize=False)),
+                ('rank', models.TextField()),
+                ('word', models.TextField()),
+                ('count', models.TextField()),
             ],
             options={
-                'db_table': 'blog_busers',
+                'db_table': 'samsung_report',
             },
         ),
     ]

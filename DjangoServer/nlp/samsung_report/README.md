@@ -86,5 +86,7 @@ nltk.download('punkt')
 font_path="[ttf파일경로]"
 ```
 
+- TypeError - Object of type ‘int64’ is not JSON serializable : 자료구조 내 원소 int64타입을 인식 못함
+  - 데이터타입을 int, str로 전부 바꿔줌
 # gitignore
 ### 

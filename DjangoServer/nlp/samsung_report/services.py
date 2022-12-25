@@ -95,7 +95,6 @@ class Service:
         self.freqtxt = pd.Series(dict(FreqDist(self.texts))).sort_values(ascending=False)
         # print(f'{self.freqtxt[:100]}')
         # print(type(self.freqtxt))
-        return self.freqtxt[:10]
 
     def draw_wordcloud(self, payload):
         # print('워드 크라우드 생성')
@@ -109,7 +108,19 @@ class Service:
         plt.axis('off')
         plt.show()
 
+    def create_csv(self):
+        savepath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/nlp/samsung_report/save./samsung.csv"
+        self.freqtxt.to_csv(savepath, na_rep="NaN", header=None, index=list(self.freqtxt.index))
 
+    def create_json(self):
+        savepath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/nlp/samsung_report/save./samsung.csv"
+        saumsung_csv = pd.read_csv(savepath, header=None, index_col=0)
+        word = saumsung_csv.index[:100]
+        count = list(saumsung_csv.values.base[0][:100])
+        samsung_json = [{"rank": int(i + 1), "word": str(word), "count": int(count)} for i, (word, count) in
+                        enumerate(zip(word, count))]
+        print(samsung_json)
+        return samsung_json
 class Controller:
     def __init__(self):
         self.entity = Entity()
@@ -119,20 +130,20 @@ class Controller:
         nltk.download('all')
 
     def data_analysis(self):
-        self.entity.fname = 'kr-Report_2018.txt'
-        self.entity.context = 'C:/Users/MSJ/AIA/MsaProject/DjangoServer/nlp/samsung_report/data/'
-        self.service.extract_tokens(self.entity)
-        self.service.extract_hangeul()
-        self.service.conversion_token()
-        self.service.compound_noun()
-        self.entity.fname = 'stopwords.txt'
-        self.service.extract_stopword(self.entity)
-        self.service.filtering_text_with_stopword()
-        self.service.frequent_text()
-        series = self.service.frequent_text()
+        # self.entity.fname = 'kr-Report_2018.txt'
+        # self.entity.context = 'C:/Users/SJMoon/AIA/MSAProject/DjangoServer/nlp/samsung_report/data/'
+        # self.service.extract_tokens(self.entity)
+        # self.service.extract_hangeul()
+        # self.service.conversion_token()
+        # self.service.compound_noun()
+        # self.entity.fname = 'stopwords.txt'
+        # self.service.extract_stopword(self.entity)
+        # self.service.filtering_text_with_stopword()
+        # self.service.frequent_text()
+        # self.service.create_csv()
         # self.entity.fname = 'D2Coding.ttf'
         # self.service.draw_wordcloud(self.entity)
-        return [series.to_dict()]
+        return self.service.create_json()
 
 if __name__ == '__main__':
     app = Controller()

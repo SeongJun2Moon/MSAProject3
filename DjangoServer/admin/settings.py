@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "movies.musers","movies.cinema","movies.movies","movies.showtimes","movies.theaterticket","movies.theater",
     "shop.susers","shop.carts","shop.categories","shop.deliveries","shop.orders","shop.products",
     "security.users",
-    "nlp.samsung_report",
-    "webcrawler.webcrawler",
+    "exrc.dlearn.fashion", "exrc.dlearn.iris",
+    "exrc.nlp.samsung_report","exrc.webcrawler.webcrawler",
     "rest_framework"
 ]
 

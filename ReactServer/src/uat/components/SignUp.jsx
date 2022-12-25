@@ -1,47 +1,66 @@
-import "../styles/SignUp.css";
-
+import { useState } from "react";
+import { randomUserMaker } from "../api";
 const SignUp = () => {
+  const [user, setUser] = useState();
+
   const onClick = (e) => {
     e.preventDefault();
-    return;
+    randomUserMaker.randomUsers().then((res) => {
+      const json = JSON.parse(res); // JSON.parse : json을 js객체로 바꿈 =>.이나 []로 내부 데이터 접근 가능 <-> JSON.stringify()
+      setUser(json["result"]);
+      console.log(json["result"]);
+      alert("소환");
+    });
   };
 
   return (
     <>
       <h2>회원가입</h2>
-      <button onClick={onClick}> 회원가입 </button>
-      <br />
-      <p>100명 등록해버리기</p>
-      {}
+      <button onClick={onClick}>100명 소환</button>
+      <p>버튼을 클릭하시면, 랜덤한 100명이 나와버립니다.</p>
+      {
+        <table>
+          <th>ID</th>
+          <th>이메일</th>
+          <th>비밀번호</th>
+          <th>이름</th>
+          <th>휴대폰번호</th>
+          <th>생일</th>
+          <th>주소</th>
+          <th>직업</th>
+          <th>취미</th>
+          <th>토큰</th>
+          {user &&
+            user.map(
+              ({
+                id,
+                user_email,
+                password,
+                user_name,
+                phone,
+                birth,
+                address,
+                job,
+                user_interests,
+                token,
+              }) => (
+                <tr key={id}>
+                  <td>{id}</td>
+                  <td>{user_email}</td>
+                  <td>{password}</td>
+                  <td>{user_name}</td>
+                  <td>{phone}</td>
+                  <td>{birth}</td>
+                  <td>{address}</td>
+                  <td>{job}</td>
+                  <td>{user_interests}</td>
+                  <td>{token}</td>
+                </tr>
+              )
+            )}
+        </table>
+      }
     </>
   );
 };
-
 export default SignUp;
-
-// const [inputs, setInputs] = useState({})
-// const {email, password, nickname} = inputs;
-
-// const onChange = e => {
-//     e.preventDefault()
-//     const {value, name} = e.target
-//     setInputs({...inputs, [name]: value})
-// }
-
-// const onClick = e => {
-//     e.preventDefault()
-//     const loginRequest = {email, password, nickname}
-//     alert(`사용자 이름: ${JSON.stringify(loginRequest)}`)
-//     userLoginApi(loginRequest)
-//     .then((res)=>{
-//         console.log(`Response is ${res}`)
-//         localStorage.setItem('token', JSON.stringify(res.config.data))
-//     })
-//     .catch((err)=>{
-//         console.log(err)
-//         alert('아이디와 비밀번호를 다시 입력해주세요')
-//     })
-
-// }EMAIL: <input type="text" name="email" onChange={onChange} /><br/>
-// PASSWORD: <input type="text" name="password" onChange={onChange} /><br/>
-// NICKNAME: <input type="text" name="nickname" onChange={onChange} /><br/>

@@ -10,7 +10,7 @@ export default function SimpleBottomNavigation() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ width: 500 }}>
+    <Box sx={{ padding: "10px" }}>
       <BottomNavigation
         showLabels
         value={value}

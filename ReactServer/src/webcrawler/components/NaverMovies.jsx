@@ -21,21 +21,15 @@ const NaverMovie = () => {
       <p>버튼을 클릭하시면, 네이버 영화 목록이 출력됩니다.</p>
       {
         <table>
-          <teahd>
-            <tr>
-              <th>순위</th>
-              <th>영화제목</th>
-            </tr>
-          </teahd>
-          <tbody>
-            {movie &&
-              movie.map(({ rank, title }) => (
-                <tr key={rank}>
-                  <td>{rank}</td>
-                  <td>{title}</td>
-                </tr>
-              ))}
-          </tbody>
+          <th>순위</th>
+          <th>영화제목</th>
+          {movie &&
+            movie.map(({ rank, title }) => (
+              <tr key={rank}>
+                <td>{rank}</td>
+                <td>{title}</td>
+              </tr>
+            ))}
         </table>
       }
     </>

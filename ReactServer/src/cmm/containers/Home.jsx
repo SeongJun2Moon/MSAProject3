@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Navigation2, Counter, Footer } from "cmm";
 import { Schedule } from "cop";
 import { LoginForm, SignUp } from "uat";
-import fasion from "img/fasion01.png";
+import fashion from "img/fasion01.png";
 import { Stroke } from "blog";
 import { Iris, Fashion, Number } from "shop";
 import { NaverMovie } from "webcrawler";
@@ -20,10 +20,10 @@ const Home = () => {
         }}
       >
         <thead>
-          <tr columns="3">
-            <td style={{ width: "100%", border: "1px solid black" }}>
+          <tr columns="1">
+            <th style={{ width: "100%", border: "1px solid black" }}>
               <Navigation2 />
-            </td>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -46,9 +46,7 @@ const Home = () => {
             </td>
           </tr>
           <tr>
-            <td>
-              <img src={fasion} />
-            </td>
+            <td>{/* <img src={fashion} /> */}</td>
           </tr>
           <tr
             style={{ width: "100%", height: "20%", border: "1px solid black" }}

@@ -19,23 +19,17 @@ const Samsung = () => {
       <p>버튼을 클릭하시면, samsung words index이 출력됩니다.</p>
       {
         <table>
-          <teahd>
-            <tr>
-              <th>rank</th>
-              <th>word</th>
-              <th>count</th>
-            </tr>
-          </teahd>
-          <tbody>
-            {movie &&
-              movie.map(({ rank, word, count }) => (
-                <tr key={rank}>
-                  <td>{rank}</td>
-                  <td>{word}</td>
-                  <td>{count}</td>
-                </tr>
-              ))}
-          </tbody>
+          <th>rank</th>
+          <th>word</th>
+          <th>count</th>
+          {movie &&
+            movie.map(({ rank, word, count }) => (
+              <tr key={rank}>
+                <td>{rank}</td>
+                <td>{word}</td>
+                <td>{count}</td>
+              </tr>
+            ))}
         </table>
       }
     </>

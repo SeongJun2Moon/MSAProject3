@@ -1,10 +1,11 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
-from security.users.services import UserService
+from exrc.webcrawler.webcrawler.services import ScrapServeice
+
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
-def users(request):
-    result = UserService().show_users()
-    return JsonResponse({'result': result})
+def webcrawler(request):
+    result = ScrapServeice().naver_movie_review()
+    return JsonResponse({'result' : result})

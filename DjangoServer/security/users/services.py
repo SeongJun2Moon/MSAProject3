@@ -1,11 +1,8 @@
-import string
 import random
-from random import shuffle
 import pandas as pd
 from sqlalchemy import create_engine
-from random_id import *
 
-from nlp.algorithm.lambdas import lambda_string, lambda_k_name, lambda_number, random_number, lambda_phone, \
+from util.algorithm.lambdas import lambda_string, lambda_k_name, lambda_phone, \
     lambda_birth, address_list, job_list, interests_list
 
 
@@ -61,6 +58,23 @@ class UserService(object):
                   con=engine,
                   index=False)
 
+    def show_users(self):
+        df = self.create_users()
+        user_email = list(df.to_dict()['user_email'].values())
+        password = list(df.to_dict()['password'].values())
+        user_name = list(df.to_dict()['user_name'].values())
+        phone = list(df.to_dict()['phone'].values())
+        birth = list(df.to_dict()['birth'].values())
+        address = list(df.to_dict()['address'].values())
+        job = list(df.to_dict()['job'].values())
+        user_interests = list(df.to_dict()['user_interests'].values())
+        token = list(df.to_dict()['token'].values())
+        users_json = [{"id": int(i + 1), "user_email": str(user_email), "password": str(password), "user_name": str(user_name),
+                       "phone": str(phone), "birth": str(birth), "address": str(address), "job" : str(job),
+                       "user_interests" : str(user_name), "token" : str(token)} for i, (user_email, password, user_name, phone, birth,
+                                                                             address, job, user_interests, token)
+                      in enumerate(zip(user_email, password, user_name, phone, birth, address, job, user_interests, token))]
+        return users_json
 
     def userid_checker(self):  # 아이디 중복체크
         pass
@@ -73,4 +87,4 @@ class UserService(object):
 
 
 if __name__ == '__main__':
-    UserService().insert_users()
+    UserService().show_users()

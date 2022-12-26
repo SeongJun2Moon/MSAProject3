@@ -17,6 +17,7 @@ export default function SimpleBottomNavigation() {
         onChange={(newValue) => {
           setValue(newValue);
         }}
+        style={{width:"800px"}}
       >
         <BottomNavigationAction onClick={() => navigate("/home")} label="홈" />
         <BottomNavigationAction
@@ -63,3 +64,5 @@ export default function SimpleBottomNavigation() {
     </Box>
   );
 }
+
+

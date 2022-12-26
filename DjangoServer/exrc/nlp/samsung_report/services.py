@@ -109,11 +109,11 @@ class Service:
         plt.show()
 
     def create_csv(self):
-        savepath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/nlp/samsung_report/save/samsung.csv"
+        savepath = "C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/nlp/samsung_report/save/samsung.csv"
         self.freqtxt.to_csv(savepath, na_rep="NaN", header=None, index=list(self.freqtxt.index))
 
     def create_json(self):
-        savepath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/nlp/samsung_report/save/samsung.csv"
+        savepath = "C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/nlp/samsung_report/save/samsung.csv"
         saumsung_csv = pd.read_csv(savepath, header=None, index_col=0)
         word = saumsung_csv.index[:100]
         count = list(saumsung_csv.values.base[0][:100])

@@ -7,13 +7,15 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 
 from exrc.webcrawler.webcrawler.models import Scrap
+from util.path import school_drive, school_save, home_save, home_drive
 
 
 class ScrapServeice(Scrap):
     def __init__(self):
         global driverpath, naver_url, savepath, encoding
-        driverpath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/webcrawler/webcrawler/chromedriver.exe"
-        savepath = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/webcrawler/save/naver.csv"
+
+        driverpath = school_drive
+        savepath = school_save
         naver_url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver"
         encoding = "UTF-8"
 

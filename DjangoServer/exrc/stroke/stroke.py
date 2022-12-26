@@ -8,9 +8,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import GridSearchCV
 from imblearn.under_sampling import RandomUnderSampler
 import seaborn as sns
-font_path = "C:/Windows/Fonts/malgunbd.ttf"
-font = font_manager.FontProperties(fname=font_path).get_name()
-rc('font', family=font)
 
 stroke_meta = {
     'id':'아이디', 'gender':'성별', 'age':'나이',
@@ -24,7 +21,6 @@ stroke_meta = {
     'smoking_status':'흡연여부',
     'stroke':'뇌졸중'
 }
-
 '''
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 5110 entries, 0 to 5109

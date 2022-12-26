@@ -87,4 +87,4 @@ class UserService(object):
 
 
 if __name__ == '__main__':
-    UserService().show_users()
+    UserService().insert_users()

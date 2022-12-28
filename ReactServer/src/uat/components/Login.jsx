@@ -20,6 +20,7 @@ const Login = () => {
         .then((res)=>{
             console.log(`Response is ${res.config.data}`)
             localStorage.setItem('token', JSON.stringify(res.config.data))
+            alert('됨')
         })
         .catch((err)=>{
             console.log(err)

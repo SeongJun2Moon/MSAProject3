@@ -22,7 +22,7 @@ class FashionService:
 
     # self, i, predictions_array, true_label, img
     def service_model(self, i) -> []:
-        model = load_model(os.path.join(os.path.abspath("/exrc/dlearn/fashion/save"), "fashion_model.h5"))
+        model = load_model(os.path.join(os.path.abspath("C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/dlearn/fashion/save/"), "fashion_model.h5"))
         (train_images, train_labels), (test_images, test_labels) = keras.datasets.fashion_mnist.load_data()
         predictions = model.predict(test_images) # 모델에 행렬 넣어서 확률 출력 => 예측
         predictions_array, true_label, img = predictions[i], test_labels[i], test_images[i]

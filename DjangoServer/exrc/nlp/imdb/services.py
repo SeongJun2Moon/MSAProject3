@@ -11,7 +11,7 @@ import numpy as np
 
 from math import log, exp
 from collections import defaultdict
-
+from util.path import dir_path
 
 class Imdb_service:
     def __init__(self):
@@ -26,9 +26,9 @@ class NaverMovieService(object):
     def __init__(self):
         global url, driver_path, file_name, encoding, review_train, k
         url = 'https://movie.naver.com/movie/point/af/list.naver?&page='
-        driver_path = r'C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/webcrawler/webcrawler/chromedriver.exe'
-        file_name = r'C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/nlp/imdb/save/naver_movie_review_corpus.csv'
-        review_train = r'C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/nlp/imdb/data/review_train.csv'
+        driver_path = path.join(dir_path("webcrawler"), "chromedriver.exe")
+        file_name = path.join(dir_path("imdb"),"save", "naver_movie_review_corpus.csv")
+        review_train = path.join(dir_path("imdb"),"data", "review_train.csv")
         encoding = "UTF-8"
         k = 0.5
         self.word_probs = []

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getnumber, postnumber } from "shop/api";
+import { getnumber, postnumber } from "exrc/dlearn/api";
 
 const Number = () => {
   const [inputs, setInputs] = useState({});

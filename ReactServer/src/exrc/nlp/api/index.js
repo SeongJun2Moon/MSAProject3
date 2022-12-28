@@ -1,6 +1,4 @@
-const webcrawler = `samsung/samsung`;
-const naverimdb = `imdb/naverimdb`
-const server = "http://127.0.0.1:8000/";
+import {server, imdbpath, samsungpath} from 'context'
 
 const webcrawlerService = {
   samsungWords, navergrade
@@ -22,7 +20,7 @@ const handleResponse = (response) => {
 };
 
 async function samsungWords() {
-  const res = await fetch(`${server}${webcrawler}`)
+  const res = await fetch(`${server}${samsungpath}`)
     .then(handleResponse)
     .then((data) => JSON.stringify(data)) //JSON.stringify() : 딕셔너리를 JSON으로 변환
     .catch((error) => {
@@ -37,7 +35,7 @@ async function navergrade(req) {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(req)
   }
-  const res = await fetch(`${server}${naverimdb}`, requestOption)
+  const res = await fetch(`${server}${imdbpath}`, requestOption)
     .then(handleResponse)
     .then((data) => JSON.stringify(data)) //JSON.stringify() : 딕셔너리를 JSON으로 변환
     .catch((error) => {

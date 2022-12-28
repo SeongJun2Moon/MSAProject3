@@ -3,10 +3,10 @@ import { Navigation2, Counter, Footer } from "cmm";
 import { Schedule } from "cop";
 import { LoginForm, SignUp } from "uat";
 import fashion from "img/fasion01.png";
-import { Stroke } from "blog";
-import { Iris, Fashion, Number } from "shop";
-import { NaverMovie } from "webcrawler";
-import { Samsung, NaverGrade } from "nlp";
+import { Stroke } from "exrc/stroke";
+import { Iris, Fashion, Number } from "exrc/dlearn";
+import { NaverMovie } from "exrc/webcrawler";
+import { Samsung, NaverGrade } from "exrc/nlp";
 
 const Home = () => {
   return (

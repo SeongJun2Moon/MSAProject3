@@ -7,7 +7,7 @@ const NaverMovie = () => {
     e.preventDefault();
     webcrawlerService.naverMovie().then((res) => {
       const json = JSON.parse(res); // JSON.parse : json을 js객체로 바꿈 =>.이나 []로 내부 데이터 접근 가능 <-> JSON.stringify()
-      setMovie(json["result"]);
+      setMovie(json["data"]);
       console.log(json);
     });
     let arr = document.getElementsByClassName("box");
@@ -26,7 +26,7 @@ const NaverMovie = () => {
           {movie &&
             movie.map(({ rank, title }) => (
               <tr key={rank}>
-                <td>{rank}</td>
+                <td>{rank+1}</td>
                 <td>{title}</td>
               </tr>
             ))}

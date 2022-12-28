@@ -11,7 +11,7 @@ class IrisService:
 
     def __init__(self):
         global model, graph, target_names
-        model = load_model('/exrc/dlearn/iris/save/iris_model.h5')
+        model = load_model('C:/Users/MSJ/AIA/MsaProject/DjangoServer/exrc/dlearn/iris/save/iris_model.h5')
         print(type(model))
         target_names = datasets.load_iris().target_names
 

@@ -6,7 +6,7 @@ import fashion from "img/fasion01.png";
 import { Stroke } from "blog";
 import { Iris, Fashion, Number } from "shop";
 import { NaverMovie } from "webcrawler";
-import { Samsung } from "nlp";
+import { Samsung, NaverGrade } from "nlp";
 
 const Home = () => {
   return (
@@ -42,6 +42,7 @@ const Home = () => {
                 <Route path="/number" element={<Number />}></Route>
                 <Route path="/navermovie" element={<NaverMovie />}></Route>
                 <Route path="/samsung" element={<Samsung />}></Route>
+                <Route path="/navergrade" element={<NaverGrade />}></Route>
               </Routes>
             </td>
           </tr>

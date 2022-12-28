@@ -26,5 +26,6 @@ urlpatterns = [
     path("shop/number", include("exrc.dlearn.number.url")),
     path("webcrawler", include("exrc.webcrawler.webcrawler.urls")),
     path("samsung", include("exrc.nlp.samsung_report.urls")),
+    path("imdb", include("exrc.nlp.imdb.urls")),
     path("users", include("security.users.urls")),
 ]

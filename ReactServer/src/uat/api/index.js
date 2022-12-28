@@ -2,7 +2,7 @@ import axios from "axios";
 const host = `http://localhost:8000`;
 const userLoginApi = (req) => axios.post(`${host}/blog/auth/login`, req);
 
-const random = `/users/users`;
+const random = `/users/users-list`;
 const server = "http://127.0.0.1:8000/";
 
 const randomUserMaker = {

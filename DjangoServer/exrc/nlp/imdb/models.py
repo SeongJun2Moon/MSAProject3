@@ -69,7 +69,7 @@ class Imdb_model:
     def fit(self):
         rmsprop = optimizers.RMSprop(learning_rate=1e-4)
         model = self.create_rnn_model()
-        model.compile(optimizers=rmsprop, loss='binary_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer=rmsprop, loss='binary_crossentropy', metrics=['accuracy'])
         checkpoint_cb = callbacks.ModelCheckpoint('best-siplernn-model.h5', save_best_only=True)
         early_stopping_cb = callbacks.EarlyStopping(patience=3, restore_best_weights=True)
         history = model.fit(train_oh, train_target, epochs=100, batch_size=64, validation_data=(val_oh, val_target), callbacks=[checkpoint_cb, early_stopping_cb])
@@ -104,6 +104,10 @@ class Imdb_model:
     #     plt.ylabel('loss')
     #     plt.legend(['train', 'val'])
     #     plt.show()
+
+class NaverMoviesModel(object):
+    def __init__(self):
+        pass
 
 
 

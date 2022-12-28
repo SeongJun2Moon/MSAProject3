@@ -60,6 +60,10 @@ export default function SimpleBottomNavigation() {
           onClick={() => navigate("/samsung")}
           label="삼성 리포트"
         />
+        <BottomNavigationAction
+          onClick={() => navigate("/navergrade")}
+          label="네이버영화긍정률"
+        />
       </BottomNavigation>
     </Box>
   );

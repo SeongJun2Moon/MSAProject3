@@ -47,9 +47,8 @@ class UserService(object):
         columns = ['user_email', 'password', 'user_name', 'phone', 'birth', 'address', 'job', 'user_interests', 'token']
         df = pd.DataFrame(rows, columns=columns)
         df['user_email'] = df['user_email'].astype(str)
-        print(df)
+        # print(df)
         return df
-
 
     def insert_users(self):
         df = self.create_users()
@@ -59,6 +58,7 @@ class UserService(object):
                   index=False)
 
     def show_users(self):
+        print("포스트맨의 요청이 도달하였다 !!")
         df = self.create_users()
         user_email = list(df.to_dict()['user_email'].values())
         password = list(df.to_dict()['password'].values())

@@ -55,3 +55,4 @@ wincertstore==0.2
 wordcloud
 pymysql
 random_id
+webdriver-manager

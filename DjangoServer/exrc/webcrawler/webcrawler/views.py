@@ -8,4 +8,4 @@ from exrc.webcrawler.webcrawler.services import ScrapServeice
 @parser_classes([JSONParser])
 def webcrawler(request):
     result = ScrapServeice().naver_movie_review()
-    return JsonResponse({'result' : result})
+    return JsonResponse({'data' : result})

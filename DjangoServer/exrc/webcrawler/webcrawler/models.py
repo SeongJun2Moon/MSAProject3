@@ -24,4 +24,9 @@ class Scrap:
     df = None
 
     def dict_to_dataframe(self):
-        self.df = pd.DataFrame.from_dict(self.diction, orient='index') #orient='index'는 index를 자동 선언
+        print(len(self.diction))
+        self.df = pd.DataFrame.from_dict(self.diction, orient='index')
+
+    def dataframe_to_scv(self):
+        path = 'save/result_bugsmusic.csv'
+        self.df.to_csv(f"C:\\Users\\SJMoon\\AIA\\MSAProject\\DjangoServer\\exrc\\webcrawler\\save")

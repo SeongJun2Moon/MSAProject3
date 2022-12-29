@@ -1,7 +1,3 @@
-from django.urls import re_path as url
-from security.users import views
+from django.test import TestCase
 
-urlpatterns = [
-    url(r'users', views.users),
-    url(r'login', views.users)
-]
+# Create your tests here.

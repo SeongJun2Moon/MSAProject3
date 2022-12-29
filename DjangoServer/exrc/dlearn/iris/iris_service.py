@@ -16,6 +16,7 @@ class IrisService:
         target_names = datasets.load_iris().target_names
 
     def service_model(self, features):
+
         #features = []
         features = np.reshape(features, (1, 4)) # 리스트를 행렬로 바꿈
         y_prob = model.predict(features, verbose=0) # 모델에 행렬 넣어서 확률 출력 => 예측

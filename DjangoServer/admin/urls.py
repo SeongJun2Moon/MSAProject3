@@ -18,7 +18,6 @@ from admin.views import hello
 
 urlpatterns = [
     path('', hello),
-    path("blog/blog", include('blog.busers.urls')),
     path("movies/movies", include('movies.musers.urls')),
     path("exrc/stroke", include("exrc.stroke.urls")),
     path("exrc/dlearn/iris", include("exrc.dlearn.iris.urls")),

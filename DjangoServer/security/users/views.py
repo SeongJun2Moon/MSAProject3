@@ -1,10 +1,31 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
+from security.users.serializers import UserSerializer
+from rest_framework.authtoken.models import Token
 from security.users.services import UserService
+from security.users.models import User
+from rest_framework.response import Response
 
 @api_view(['GET'])
 @parser_classes([JSONParser])
-def users(request):
-    result = UserService().show_users()
-    return JsonResponse({'result': result})
+def user_list(request):
+    if request.method == "GET":
+        serializer = UserSerializer(User.objects.all(), many=True)
+        return Response(serializer.data)
+
+@api_view(['POST'])
+@parser_classes([JSONParser])
+def login(request):
+    print(f'로그인 정보: {request.data}')
+    loginInfo = request.data
+    loginUser = User.objects.get(user_email=loginInfo['email'])
+    print(f"해당 email 을 가진 User ID: {loginUser.id}")
+    if loginUser.password == loginInfo["password"]:
+        dbUser = User.objects.all().filter(id=loginUser.id).values()[0]
+        print(f" DBUser is {dbUser}")
+        serializer = UserSerializer(dbUser, many=False)
+        return JsonResponse(data=serializer.data, safe=False)
+    else:
+        return Response("비밀번호 확인")
+    # dictionary이외를 받을 경우, 두번째 argument를 safe=False로 설정해야한다.

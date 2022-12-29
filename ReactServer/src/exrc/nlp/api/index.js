@@ -7,7 +7,7 @@ const webcrawlerService = {
 const handleResponse = (response) => {
   return response.text()
   .then((text) => {
-    const data = text && JSON.parse(text); //JSON.parse : 제이슨을 js객체로 변환
+    const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
         window.location.reload();

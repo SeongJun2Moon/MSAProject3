@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Navigation2, Counter, Footer } from "cmm";
 import { Schedule } from "cop";
-import { LoginForm, SignUp } from "uat";
+import { Login, SignUp, UserList } from "uat";
 import fashion from "img/fasion01.png";
 import { Stroke } from "exrc/stroke";
 import { Iris, Fashion, Number } from "exrc/dlearn";
@@ -34,7 +34,7 @@ const Home = () => {
               <Routes>
                 <Route path="/counter" element={<Counter />}></Route>
                 <Route path="/todos" element={<Schedule />}></Route>
-                <Route path="/login" element={<LoginForm />}></Route>
+                <Route path="/login" element={<Login />}></Route>
                 <Route path="/signup" element={<SignUp />}></Route>
                 <Route path="/stroke" element={<Stroke />}></Route>
                 <Route path="/iris" element={<Iris />}></Route>
@@ -43,6 +43,7 @@ const Home = () => {
                 <Route path="/navermovie" element={<NaverMovie />}></Route>
                 <Route path="/samsung" element={<Samsung />}></Route>
                 <Route path="/navergrade" element={<NaverGrade />}></Route>
+                <Route path="/userlist" element={<UserList />}></Route>
               </Routes>
             </td>
           </tr>

@@ -10,14 +10,13 @@ export default function SimpleBottomNavigation() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ padding: "10px" }}>
+    <Box>
       <BottomNavigation
         showLabels
         value={value}
         onChange={(newValue) => {
           setValue(newValue);
         }}
-        style={{width:"800px"}}
       >
         <BottomNavigationAction onClick={() => navigate("/home")} label="홈" />
         <BottomNavigationAction
@@ -63,6 +62,10 @@ export default function SimpleBottomNavigation() {
         <BottomNavigationAction
           onClick={() => navigate("/navergrade")}
           label="네이버영화긍정률"
+        />
+        <BottomNavigationAction
+          onClick={() => navigate("/userlist")}
+          label="유저 리스트"
         />
       </BottomNavigation>
     </Box>

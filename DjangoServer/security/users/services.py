@@ -53,7 +53,7 @@ class UserService(object):
     def insert_users(self):
         df = self.create_users()
         df.to_sql(name='users',
-                  if_exists='aeppnd', # append, replace, fail
+                  if_exists='append', # append, replace, fail
                   con=engine,
                   index=False)
 

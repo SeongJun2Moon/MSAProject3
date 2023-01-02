@@ -2,11 +2,10 @@ import { Route, Routes } from "react-router-dom";
 import { Navigation2, Counter, Footer } from "cmm";
 import { Schedule } from "cop";
 import { Login, SignUp, UserList } from "uat";
-import fashion from "img/fasion01.png";
 import { Stroke } from "exrc/stroke";
-import { Iris, Fashion, Number } from "exrc/dlearn";
+import { Iris, Fashion, Number, AiTraders } from "exrc/dlearn";
 import { NaverMovie } from "exrc/webcrawler";
-import { Samsung, NaverGrade } from "exrc/nlp";
+import { Samsung, NaverGrade, KoreanClassify } from "exrc/nlp";
 
 const Home = () => {
   return (
@@ -44,6 +43,8 @@ const Home = () => {
                 <Route path="/samsung" element={<Samsung />}></Route>
                 <Route path="/navergrade" element={<NaverGrade />}></Route>
                 <Route path="/userlist" element={<UserList />}></Route>
+                <Route path="/korean" element={<KoreanClassify />}></Route>
+                <Route path="/traders" element={<AiTraders />}></Route>
               </Routes>
             </td>
           </tr>

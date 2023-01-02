@@ -56,3 +56,6 @@ wordcloud
 pymysql
 random_id
 webdriver-manager
+pandas_datareader
+yfinance==0.2.3
+prophet==1.1.1

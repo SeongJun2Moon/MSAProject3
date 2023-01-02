@@ -14,3 +14,6 @@ class CinemasSerializer(serializers.ModelSerializer):
 
     def delete(self, instance, valicated_data):
         pass
+
+    def find_by_id(self, instance, valicated_data):
+        pass

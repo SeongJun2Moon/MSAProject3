@@ -67,9 +67,15 @@ export default function SimpleBottomNavigation() {
           onClick={() => navigate("/userlist")}
           label="유저 리스트"
         />
+        <BottomNavigationAction
+          onClick={() => navigate("/korean")}
+          label="한국어 체크"
+        />
+        <BottomNavigationAction
+          onClick={() => navigate("/traders")}
+          label="삼성주가"
+        />
       </BottomNavigation>
     </Box>
   );
 }
-
-

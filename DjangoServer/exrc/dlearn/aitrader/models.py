@@ -1,35 +1,68 @@
+from abc import ABCMeta
+
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from keras.models import Sequential
-from keras.layers import Dense
+from keras import Input
+from keras.models import Sequential, Model
+from keras.layers import Dense, LSTM, concatenate
 from keras.callbacks import EarlyStopping
 import numpy as np
 import pandas as pd
+
+# class AiTradeBase(metaclass=ABCMeta):
+#     @abstractmethod
+#     def split_xy5(self, **kwargs): pass
+#
+#     @abstractmethod
+#     def create(self): pass
+
+
 class SamsungKospi:
     def __init__(self):
-        global kospi200, samsung
+        global kospi200, samsung, model_save
         kospi200 = np.load('C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/kospi200.npy', allow_pickle=True)
         samsung = np.load('C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/samsung.npy', allow_pickle=True)
+        model_save = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/"
 
+    def normalization(self, df):
+        df2 = df
+        for i in range(len(df2.index)):
+            for j in range(len(df2.iloc[i])):
+                if "M" in df2.iloc[i, j]:
+                    df2.iloc[i, j] = df2.iloc[i, j].replace(',', '')
+                    df2.iloc[i, j] = df2.iloc[i, j].replace('M', '')
+                    df2.iloc[i, j] = float(df2.iloc[i, j])
+                    df2.iloc[i, j] = df2.iloc[i, j] * 1000000
+                elif "K" in df2.iloc[i, j]:
+                    df2.iloc[i, j] = df2.iloc[i, j].replace(',', '')
+                    df2.iloc[i, j] = df2.iloc[i, j].replace('K', '')
+                    df2.iloc[i, j] = float(df2.iloc[i, j])
+                    df2.iloc[i, j] = df2.iloc[i, j] * 1000
+                else:
+                    df2.iloc[i, j] = df2.iloc[i, j].replace(',', '')
+                    df2.iloc[i, j] = float(df2.iloc[i, j])
     def hook(self):
-        self.split_xy5(samsung, 5, 1)
-        self.dataset()
-        self.preprocessing()
-        self.modeling()
+        # self.split_xy5(samsung, 5, 1)
+        # self.dataset()
+        # self.preprocessing()
+        # self.modeling()
+        return samsung
 
     def csv_to_npy(self):
         df1 = pd.read_csv("C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/data/kospi200.csv", index_col=0,
                           header=0, encoding='UTF8', sep=',').drop('변동 %', axis=1)
         df2 = pd.read_csv("C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/data/samsung.csv", index_col=0,
-                          header=0, encoding='UTF8', sep=',').drop('변동 %', axis=1).dropna()
-        for i in range(len(df1.index)):
-            df1.iloc[i, 4] = float(df1.iloc[i, 4].replace('M', '').replace('K', ''))
+                          header=0, encoding='UTF8', sep=',').drop('변동 %', axis=1)
 
-        for i in range(len(df2.index)):
-            for j in range(len(df2.iloc[i]) - 1):
-                df2.iloc[i, j] = int(df2.iloc[i, j].replace(',', ''))
-        for i in range(len(df2.index)):
-            df2.iloc[i, 4] = float(df2.iloc[i, 4].replace('M', '').replace('K', ''))
+        df1 = df1.astype('str')
+        df1.replace(np.nan, '0', regex=True, inplace=True)
+        df2.replace(np.nan, '0', regex=True, inplace=True)
+
+        df1 = df1[df1['거래량'] != '0']
+        df2 = df2[df2['거래량'] != '0']
+
+        self.normalization(df1)
+        self.normalization(df2)
 
         df1 = df1.sort_values(['날짜'], ascending=[True])
         df2 = df2.sort_values(['날짜'], ascending=[True])
@@ -54,37 +87,61 @@ class SamsungKospi:
             y.append(tmp_y)
         return np.array(x), np.array(y)
 
-    def dataset(self):
-        global x_train, x_test, y_train, y_test
-        x, y = SamsungKospi().split_xy5(samsung, 5, 1)
+    def DNN_scaled(self):
+        x, y = self.split_xy5(samsung, 5, 1)
         x_train, x_test, y_train, y_test = train_test_split(
             x, y, random_state=1, test_size=0.3)
 
-        # y_train = y_train.reshape(x_train.shape[0], x_train[1], 1).astype(np.float32)
-        # y_test = y_test.reshape(x_train.shape[0], x_train[1], 1).astype(np.float32)
         print(x_train.shape)
         print(x_test.shape)
         print(y_train.shape)
         print(y_test.shape)
 
         # standarScaler 에서 2차원으로 받기 때문에 3차원을 2차원으로 바꿔줌
-        x_train = np.reshape(x_train,
-                             (x_train.shape[0], x_train.shape[1] * x_train.shape[2]))
-        x_test = np.reshape(x_test,
-                            (x_test.shape[0], x_test.shape[1] * x_test.shape[2]))
+        x_train = np.reshape(x_train,(x_train.shape[0], x_train.shape[1] * x_train.shape[2])).astype(float)
+        x_test = np.reshape(x_test,(x_test.shape[0], x_test.shape[1] * x_test.shape[2])).astype(float)
+        y_train = y_train.astype(float)
+        y_test = y_test.astype(float)
         print(x_train.shape)
         print(x_test.shape)
 
-    def preprocessing(self):
-        global x_train_scaled, x_test_scaled
         scaler = StandardScaler()
         scaler.fit(x_train)
-        x_train_scaled = scaler.transform(x_train)
-        x_test_scaled = scaler.transform(x_test)
+        x_train_scaled = scaler.transform(x_train).astype(float)
+        x_test_scaled = scaler.transform(x_test).astype(float)
         print(x_train_scaled[0, :])
+        return x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled
 
-    def modeling(self):
-        global model
+    def LSTM_scaled(self):
+        x,y = self.split_xy5(samsung, 5, 1)
+        # print(x.shape) #(16, 5, 5)
+        # print(y.shape) #(16, 1)
+
+        x_train, x_test, y_train, y_test = train_test_split(x,y,random_state=1, test_size=0.3)
+        # print(x_train.shape) #(11, 5, 5)
+        # print(x_test.shape) #(5, 5, 5)
+        # print(y_train.shape) #(11, 1)
+        # print(y_test.shape) #(5, 1)
+
+        x_train = np.reshape(x_train, (x_train.shape[0], x_train.shape[1]*x_train.shape[2])).astype(float)
+        x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1]*x_test.shape[2])).astype(float)
+        y_train = y_train.astype(float)
+        y_test = y_test.astype(float)
+        scalar = StandardScaler()
+        scalar.fit(x_train)
+        x_train_scaled = scalar.transform(x_train)
+        x_test_scaled = scalar.transform(x_test)
+        # print(x_train_scaled[0,:])
+        # print(x_test_scaled.shape) #(5, 25)
+        x_train_scaled = np.reshape(x_train_scaled, (x_train_scaled.shape[0], 5, 5)).astype(float)
+        x_test_scaled = np.reshape(x_test_scaled, (x_test_scaled.shape[0], 5, 5)).astype(float)
+        return x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled
+
+    def DNN(self):
+        x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.DNN_scaled()\
+
+        print(x_train_scaled[0, :])
+        print(x_test_scaled.shape)
         model = Sequential()
         model.add(Dense(64, input_shape=(25,)))
         model.add(Dense(32, activation='relu'))
@@ -92,27 +149,121 @@ class SamsungKospi:
         model.add(Dense(32, activation='relu'))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(1))
+        model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+        early_stopping = EarlyStopping(patience=20)
+        model.fit(x_train_scaled, y_train, validation_split=0.2, verbose=1, batch_size=1, epochs=100,
+                  callbacks=[early_stopping])
+        loss, mse = model.evaluate(x_test_scaled, y_test, batch_size=1)
+        model.save(model_save+"DNN.h5")
+        print('loss : ', loss)
+        print('mse: ', mse)
+        y_pred = model.predict(x_test_scaled)
+        for i in range(5):
+            print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
+
+    def LSTM(self):
+        x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.LSTM_scaled()
+
+        print(x_train_scaled.shape) #(11, 5, 5)
+        print(x_test_scaled.shape) #(5, 5, 5)
+
+        model = Sequential()
+        model.add(LSTM(64, input_shape=(5, 5)))
+        model.add(Dense(32, activation='relu'))
+        model.add(Dense(32, activation='relu'))
+        model.add(Dense(32, activation='relu'))
+        model.add(Dense(32, activation='relu'))
+        model.add(Dense(1))
+        model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+
+        early_stopping = EarlyStopping(patience=20)
+        model.fit(x_train_scaled, y_train, validation_split=0.2, verbose=1, batch_size=1, epochs=100,
+                  callbacks=[early_stopping])
+        loss, mse = model.evaluate(x_test_scaled, y_test, batch_size=1)
+
+        model.save(model_save+"LSTM.h5")
+
+        print('loss : ', loss)
+        print('mse: ', mse)
+        y_pred = model.predict(x_test_scaled)
+        for i in range(5):
+            print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
+
+    def DNN_Ensemble(self):
+        x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.DNN_scaled()
+        x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.DNN_scaled()
+
+        input1 = Input(shape=(25,))
+        dense1 = Dense(64)(input1)
+        dense1 = Dense(32)(dense1)
+        dense1 = Dense(32)(dense1)
+        output1 = Dense(32)(dense1)
+        input2 = Input(shape=(25,))
+        dense2 = Dense(64)(input2)
+        dense2 = Dense(32)(dense2)
+        dense2 = Dense(32)(dense2)
+        output2 = Dense(32)(dense2)
+
+        merge = concatenate([output1, output2])
+        output3 = Dense(1)(merge)
+        model = Model(inputs=[input1, input2], outputs=output3)
+
+        model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+        early_stopping = EarlyStopping(patience=20)
+        model.fit([x1_train_scaled, x2_train_scaled], y1_train, validation_split=0.2,
+                  verbose=1, batch_size=1, epochs=100,
+                  callbacks=[early_stopping])
+
+        loss, mse = model.evaluate([x1_test_scaled, x2_test_scaled], y1_test, batch_size=1)
+        model.save(model_save + "DNN_Ensemble.h5")
+        print('loss : ', loss)
+        print('mse : ', mse)
+
+        y1_pred = model.predict([x1_test_scaled, x2_test_scaled])
+
+        for i in range(5):
+            print('종가 : ', y1_test[i], '/ 예측가 : ', y1_pred[i])
+
+    def LSTM_Ensemble(self):
+        x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.LSTM_scaled()
+        x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.LSTM_scaled()
+
+        input1 = Input(shape=(5, 5))
+        dense1 = LSTM(64)(input1)
+        dense1 = Dense(32)(dense1)
+        dense1 = Dense(32)(dense1)
+        output1 = Dense(32)(dense1)
+
+        input2 = Input(shape=(5, 5))
+        dense2 = LSTM(64)(input2)
+        dense2 = Dense(64)(dense2)
+        dense2 = Dense(64)(dense2)
+        dense2 = Dense(64)(dense2)
+        output2 = Dense(32)(dense2)
+
+        merge = concatenate([output1, output2])
+        output3 = Dense(1)(merge)
+
+        model = Model(inputs=[input1, input2], outputs=output3)
 
         model.compile(loss='mse', optimizer='adam', metrics=['mse'])
 
         early_stopping = EarlyStopping(patience=20)
-        model.fit(x_train_scaled, y_train.astype(np.float32), validation_split=0.2, verbose=1,
-                  batch_size=1, epochs=100, callbacks=[early_stopping])
+        model.fit([x1_train_scaled, x2_train_scaled], y1_train, validation_split=0.2,
+                  verbose=1, batch_size=1, epochs=100,
+                  callbacks=[early_stopping])
 
-        loss, mse = model.evaluate(x_test_scaled, y_test.astype(np.float32), batch_size=1)
+        loss, mse = model.evaluate([x1_test_scaled, x2_test_scaled], y1_test, batch_size=1)
+        model.save(model_save + "LSTM_Ensemble.h5")
         print('loss : ', loss)
         print('mse : ', mse)
 
-        y_pred = model.predict(x_test_scaled)
+        y1_pred = model.predict([x1_test_scaled, x2_test_scaled])
 
-        # for i in range(5):
-        #     print('종가 : ', y_test[i][0], '/ 예측가 : ', y_pred[i][0])
-        return [{'종가' : y_test[i][0], '예측가' : y_pred[i][0]} for i in range(5)]
+        for i in range(5):
+            print('종가 : ', y1_test[i], '/ 예측가 : ', y1_pred[i])
 
-    def save_model(self):
-        file_name = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/samsung_stock_dnn_model.h5"
-        print(f"저장경로: {file_name}")
-        model.save(file_name)
 
 if __name__ == '__main__':
-    SamsungKospi().hook()
+    # SamsungKospi().DNN_Ensemble()
+    print(SamsungKospi().hook())

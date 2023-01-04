@@ -1,20 +1,32 @@
-from abc import ABCMeta
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from keras import Input
 from keras.models import Sequential, Model
 from keras.layers import Dense, LSTM, concatenate
 from keras.callbacks import EarlyStopping
+from enum import Enum
 import numpy as np
 import pandas as pd
+from abc import abstractmethod, ABCMeta
 
-# class AiTradeBase(metaclass=ABCMeta):
-#     @abstractmethod
-#     def split_xy5(self, **kwargs): pass
-#
-#     @abstractmethod
-#     def create(self): pass
+class ModelType(Enum):
+    dnn_model = 1
+    dnn_ensemble = 2
+    lstm_model = 3
+    lstm_ensemble = 4
+
+class H5FileNames(Enum):
+    dnn_model = "samsung_stock_dnn_model.h5"
+    dnn_ensemble = "samsung_stock_dnn_ensemble.h5"
+    lstm_model = "samsung_stock_lstm_model.h5"
+    lstm_ensemble = "samsung_stock_lstm_ensemble.h5"
+
+class AiTradeBase(metaclass=ABCMeta):
+    @abstractmethod
+    def split_xy5(self, **kwargs): pass
+
+    @abstractmethod
+    def create(self): pass
 
 
 class SamsungKospi:
@@ -23,6 +35,9 @@ class SamsungKospi:
         kospi200 = np.load('C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/kospi200.npy', allow_pickle=True)
         samsung = np.load('C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/samsung.npy', allow_pickle=True)
         model_save = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/"
+
+    def file_checker(self):
+        print(samsung[0])
 
     def normalization(self, df):
         df2 = df
@@ -41,12 +56,6 @@ class SamsungKospi:
                 else:
                     df2.iloc[i, j] = df2.iloc[i, j].replace(',', '')
                     df2.iloc[i, j] = float(df2.iloc[i, j])
-    def hook(self):
-        # self.split_xy5(samsung, 5, 1)
-        # self.dataset()
-        # self.preprocessing()
-        # self.modeling()
-        return samsung
 
     def csv_to_npy(self):
         df1 = pd.read_csv("C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/data/kospi200.csv", index_col=0,
@@ -87,15 +96,15 @@ class SamsungKospi:
             y.append(tmp_y)
         return np.array(x), np.array(y)
 
-    def DNN_scaled(self):
-        x, y = self.split_xy5(samsung, 5, 1)
+    def DNN_scaled(self, dataset):
+        x, y = self.split_xy5(dataset, 5, 1)
         x_train, x_test, y_train, y_test = train_test_split(
             x, y, random_state=1, test_size=0.3)
 
-        print(x_train.shape)
-        print(x_test.shape)
-        print(y_train.shape)
-        print(y_test.shape)
+        # print(x_train.shape)
+        # print(x_test.shape)
+        # print(y_train.shape)
+        # print(y_test.shape)
 
         # standarScaler 에서 2차원으로 받기 때문에 3차원을 2차원으로 바꿔줌
         x_train = np.reshape(x_train,(x_train.shape[0], x_train.shape[1] * x_train.shape[2])).astype(float)
@@ -112,8 +121,8 @@ class SamsungKospi:
         print(x_train_scaled[0, :])
         return x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled
 
-    def LSTM_scaled(self):
-        x,y = self.split_xy5(samsung, 5, 1)
+    def LSTM_scaled(self, dataset):
+        x,y = self.split_xy5(dataset, 5, 1)
         # print(x.shape) #(16, 5, 5)
         # print(y.shape) #(16, 1)
 
@@ -127,6 +136,7 @@ class SamsungKospi:
         x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1]*x_test.shape[2])).astype(float)
         y_train = y_train.astype(float)
         y_test = y_test.astype(float)
+
         scalar = StandardScaler()
         scalar.fit(x_train)
         x_train_scaled = scalar.transform(x_train)
@@ -137,8 +147,9 @@ class SamsungKospi:
         x_test_scaled = np.reshape(x_test_scaled, (x_test_scaled.shape[0], 5, 5)).astype(float)
         return x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled
 
-    def DNN(self):
-        x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.DNN_scaled()\
+class DNNModel(SamsungKospi):
+    def create(self):
+        x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.DNN_scaled(samsung)
 
         print(x_train_scaled[0, :])
         print(x_test_scaled.shape)
@@ -154,15 +165,16 @@ class SamsungKospi:
         model.fit(x_train_scaled, y_train, validation_split=0.2, verbose=1, batch_size=1, epochs=100,
                   callbacks=[early_stopping])
         loss, mse = model.evaluate(x_test_scaled, y_test, batch_size=1)
-        model.save(model_save+"DNN.h5")
         print('loss : ', loss)
         print('mse: ', mse)
         y_pred = model.predict(x_test_scaled)
         for i in range(5):
             print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
+        model.save(model_save + "DNN.h5")
 
-    def LSTM(self):
-        x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.LSTM_scaled()
+class LSTMModel(SamsungKospi):
+    def create(self):
+        x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.LSTM_scaled(samsung)
 
         print(x_train_scaled.shape) #(11, 5, 5)
         print(x_test_scaled.shape) #(5, 5, 5)
@@ -181,17 +193,17 @@ class SamsungKospi:
                   callbacks=[early_stopping])
         loss, mse = model.evaluate(x_test_scaled, y_test, batch_size=1)
 
-        model.save(model_save+"LSTM.h5")
-
         print('loss : ', loss)
         print('mse: ', mse)
         y_pred = model.predict(x_test_scaled)
         for i in range(5):
             print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
+        model.save(model_save + "LSTM.h5")
 
-    def DNN_Ensemble(self):
-        x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.DNN_scaled()
-        x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.DNN_scaled()
+class DNNEnsemble(SamsungKospi):
+    def create(self):
+        x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.DNN_scaled(samsung)
+        x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.DNN_scaled(kospi200)
 
         input1 = Input(shape=(25,))
         dense1 = Dense(64)(input1)
@@ -215,7 +227,7 @@ class SamsungKospi:
                   callbacks=[early_stopping])
 
         loss, mse = model.evaluate([x1_test_scaled, x2_test_scaled], y1_test, batch_size=1)
-        model.save(model_save + "DNN_Ensemble.h5")
+
         print('loss : ', loss)
         print('mse : ', mse)
 
@@ -224,9 +236,12 @@ class SamsungKospi:
         for i in range(5):
             print('종가 : ', y1_test[i], '/ 예측가 : ', y1_pred[i])
 
-    def LSTM_Ensemble(self):
-        x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.LSTM_scaled()
-        x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.LSTM_scaled()
+        model.save(model_save + "DNN_Ensemble.h5")
+
+class LSTMEnsemble(SamsungKospi):
+    def create(self):
+        x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.LSTM_scaled(samsung)
+        x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.LSTM_scaled(kospi200)
 
         input1 = Input(shape=(5, 5))
         dense1 = LSTM(64)(input1)
@@ -254,7 +269,7 @@ class SamsungKospi:
                   callbacks=[early_stopping])
 
         loss, mse = model.evaluate([x1_test_scaled, x2_test_scaled], y1_test, batch_size=1)
-        model.save(model_save + "LSTM_Ensemble.h5")
+
         print('loss : ', loss)
         print('mse : ', mse)
 
@@ -263,7 +278,8 @@ class SamsungKospi:
         for i in range(5):
             print('종가 : ', y1_test[i], '/ 예측가 : ', y1_pred[i])
 
+        model.save(model_save + "LSTM_Ensemble.h5")
+
 
 if __name__ == '__main__':
-    # SamsungKospi().DNN_Ensemble()
-    print(SamsungKospi().hook())
+    SamsungKospi().file_checker()

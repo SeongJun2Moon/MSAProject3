@@ -8,8 +8,9 @@ from exrc.dlearn.aitrader.models import SamsungKospi
 @api_view(["GET"])
 @parser_classes([JSONParser])
 def aitrader(request):
-    result = SamsungKospi().hook()
-    return JsonResponse({"result": result})
+    data = request.GET
+    print(data['id'])
+    return JsonResponse({"result": "hi"})
 
 
     # body = request.body

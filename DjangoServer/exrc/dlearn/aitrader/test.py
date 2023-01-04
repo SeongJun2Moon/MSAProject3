@@ -1,31 +1,16 @@
 from keras.saving.save import load_model
 
-from exrc.dlearn.aitrader.models import SamsungKospi
-
-class TestModel:
-
-    def __init__(self):
-        global DNN, DNN_Ensemble, LSTM, LSTM_Ensemble
-        rute = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/"
-        DNN = load_model(rute+"DNN.h5")
-        DNN_Ensemble = load_model(rute+"DNN_Ensemble.h5")
-        LSTM = load_model(rute+"LSTM.h5")
-        LSTM_Ensemble = load_model(rute+"LSTM_Ensemble.h5")
-
-    def hook(self):
-        print("hi")
-
-
-
-
+from exrc.dlearn.aitrader.models import SamsungKospi, DNNModel, DNNEnsemble, LSTMModel, LSTMEnsemble
 aitraders_menu = ["Exit", #0
-                "Hook",#1
+                "DNNModel",#1
+                "DNN Ensemble",#1
+                "LSTMModel",#1
+                "LSTM Ensemble",#1
             ]
-aitraders_lambda = {
-    "1" : lambda x: x.hook()
-            }
+
+
 if __name__ == '__main__':
-    ai = TestModel()
+    model = SamsungKospi()
     while True:
         [print(f"{i}. {j}") for i, j in enumerate(aitraders_menu)]
         menu = input('메뉴선택: ')
@@ -34,7 +19,14 @@ if __name__ == '__main__':
             break
         else:
             try:
-                aitraders_lambda[menu](ai)
+                if menu == "1":
+                    DNNModel().create()
+                elif menu == "2":
+                    DNNEnsemble().create()
+                elif menu == "3":
+                    LSTMModel().create()
+                elif menu == "4":
+                    LSTMEnsemble().create()
             except KeyError as e:
                 if 'some error message' in str(e):
                     print('Caught error message')

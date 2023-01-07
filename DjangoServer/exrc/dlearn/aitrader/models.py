@@ -23,13 +23,26 @@ class H5FileNames(Enum):
 
 class AiTradeBase(metaclass=ABCMeta):
     @abstractmethod
-    def split_xy5(self, **kwargs): pass
-
+    def file_checker(self):
+        pass
     @abstractmethod
-    def create(self): pass
+    def normalization(self, df):
+        pass
+    @abstractmethod
+    def csv_to_npy(self):
+        pass
+    @abstractmethod
+    def split_xy5(self, dataset, time_steps, y_column):
+        pass
+    @abstractmethod
+    def DNN_scaled(self, dataset):
+        pass
+    @abstractmethod
+    def LSTM_scaled(self, dataset):
+        pass
 
 
-class SamsungKospi:
+class AiTradeModel(AiTradeBase):
     def __init__(self):
         global kospi200, samsung, model_save
         kospi200 = np.load('C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/dlearn/aitrader/save/kospi200.npy', allow_pickle=True)
@@ -86,12 +99,12 @@ class SamsungKospi:
         x,y = list(), list()
         for i in range(len(dataset)):
             x_end_number = i + time_steps
-            y_end_numbber = x_end_number + y_column
+            y_end_number = x_end_number + y_column
 
-            if y_end_numbber > len(dataset):
+            if y_end_number > len(dataset):
                 break
             tmp_x = dataset[i:x_end_number, :]
-            tmp_y = dataset[x_end_number:y_end_numbber, 3]
+            tmp_y = dataset[x_end_number:y_end_number, 3]
             x.append(tmp_x)
             y.append(tmp_y)
         return np.array(x), np.array(y)
@@ -147,7 +160,7 @@ class SamsungKospi:
         x_test_scaled = np.reshape(x_test_scaled, (x_test_scaled.shape[0], 5, 5)).astype(float)
         return x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled
 
-class DNNModel(SamsungKospi):
+class DNNModel(AiTradeModel):
     def create(self):
         x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.DNN_scaled(samsung)
 
@@ -172,7 +185,7 @@ class DNNModel(SamsungKospi):
             print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
         model.save(model_save + "DNN.h5")
 
-class LSTMModel(SamsungKospi):
+class LSTMModel(AiTradeModel):
     def create(self):
         x_train, x_test, y_train, y_test, x_train_scaled, x_test_scaled = self.LSTM_scaled(samsung)
 
@@ -200,7 +213,7 @@ class LSTMModel(SamsungKospi):
             print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
         model.save(model_save + "LSTM.h5")
 
-class DNNEnsemble(SamsungKospi):
+class DNNEnsemble(AiTradeModel):
     def create(self):
         x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.DNN_scaled(samsung)
         x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.DNN_scaled(kospi200)
@@ -238,7 +251,7 @@ class DNNEnsemble(SamsungKospi):
 
         model.save(model_save + "DNN_Ensemble.h5")
 
-class LSTMEnsemble(SamsungKospi):
+class LSTMEnsemble(AiTradeModel):
     def create(self):
         x1_train, x1_test, y1_train, y1_test, x1_train_scaled, x1_test_scaled = self.LSTM_scaled(samsung)
         x2_train, x2_test, y2_train, y2_test, x2_train_scaled, x2_test_scaled = self.LSTM_scaled(kospi200)
@@ -282,4 +295,4 @@ class LSTMEnsemble(SamsungKospi):
 
 
 if __name__ == '__main__':
-    SamsungKospi().file_checker()
+    AiTradeModel().DNN_scaled()

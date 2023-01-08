@@ -1,6 +1,6 @@
 from keras.saving.save import load_model
 
-from exrc.dlearn.aitrader.models import SamsungKospi, DNNModel, DNNEnsemble, LSTMModel, LSTMEnsemble
+from exrc.dlearn.aitrader.models import AiTradeModel, DNNModel, DNNEnsemble, LSTMModel, LSTMEnsemble
 aitraders_menu = ["Exit", #0
                 "DNNModel",#1
                 "DNN Ensemble",#1
@@ -10,7 +10,7 @@ aitraders_menu = ["Exit", #0
 
 
 if __name__ == '__main__':
-    model = SamsungKospi()
+    model = AiTradeModel()
     while True:
         [print(f"{i}. {j}") for i, j in enumerate(aitraders_menu)]
         menu = input('메뉴선택: ')

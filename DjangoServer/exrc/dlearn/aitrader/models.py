@@ -53,10 +53,11 @@ class AiTradeModel(AiTradeBase):
         print(samsung[0])
 
     def normalization(self, df):
+        df.rename(columns={'오픈': '시가'}, inplace=True) # 칼럼이름 바꾸기
         df2 = df
         for i in range(len(df2.index)):
             for j in range(len(df2.iloc[i])):
-                if "M" in df2.iloc[i, j]:
+                if "M" in df2.iloc[i, j]: # iloc=인덱스의 순서
                     df2.iloc[i, j] = df2.iloc[i, j].replace(',', '')
                     df2.iloc[i, j] = df2.iloc[i, j].replace('M', '')
                     df2.iloc[i, j] = float(df2.iloc[i, j])
@@ -79,16 +80,15 @@ class AiTradeModel(AiTradeBase):
         df1 = df1.astype('str')
         df1.replace(np.nan, '0', regex=True, inplace=True)
         df2.replace(np.nan, '0', regex=True, inplace=True)
-
         df1 = df1[df1['거래량'] != '0']
         df2 = df2[df2['거래량'] != '0']
 
         self.normalization(df1)
         self.normalization(df2)
 
-        df1 = df1.sort_values(['날짜'], ascending=[True])
+        df1 = df1.sort_values(['날짜'], ascending=[True]) # 오름차순 정리 : 날짜=기준칼럼, ascending=오름차순여부
         df2 = df2.sort_values(['날짜'], ascending=[True])
-        df1 = df1.values
+        df1 = df1.values # 데이터만 출력
         df2 = df2.values
 
         np.save('./save/kospi200.npy', arr=df1)
@@ -112,7 +112,7 @@ class AiTradeModel(AiTradeBase):
     def DNN_scaled(self, dataset):
         x, y = self.split_xy5(dataset, 5, 1)
         x_train, x_test, y_train, y_test = train_test_split(
-            x, y, random_state=1, test_size=0.3)
+            x, y, random_state=1, test_size=0.3, shuffle=False) # random_state = 난수초기값, shuffle = test 나눌 때 무작위 여부
 
         # print(x_train.shape)
         # print(x_test.shape)
@@ -122,12 +122,13 @@ class AiTradeModel(AiTradeBase):
         # standarScaler 에서 2차원으로 받기 때문에 3차원을 2차원으로 바꿔줌
         x_train = np.reshape(x_train,(x_train.shape[0], x_train.shape[1] * x_train.shape[2])).astype(float)
         x_test = np.reshape(x_test,(x_test.shape[0], x_test.shape[1] * x_test.shape[2])).astype(float)
+
         y_train = y_train.astype(float)
         y_test = y_test.astype(float)
         print(x_train.shape)
         print(x_test.shape)
 
-        scaler = StandardScaler()
+        scaler = StandardScaler() # 스케일링 : 위에서 정규화(normalization) 했으므로 여기서는 표준화(standardization)이 목적
         scaler.fit(x_train)
         x_train_scaled = scaler.transform(x_train).astype(float)
         x_test_scaled = scaler.transform(x_test).astype(float)
@@ -166,21 +167,22 @@ class DNNModel(AiTradeModel):
 
         print(x_train_scaled[0, :])
         print(x_test_scaled.shape)
-        model = Sequential()
-        model.add(Dense(64, input_shape=(25,)))
+        model = Sequential() # 모델 종류 설정
+        model.add(Dense(64, input_shape=(25,))) # 계층설정, input_shape:데이터모양설정, activation:활성화함수 설정
         model.add(Dense(32, activation='relu'))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(32, activation='relu'))
         model.add(Dense(1))
-        model.compile(loss='mse', optimizer='adam', metrics=['mse'])
+
+        model.compile(loss='mse', optimizer='adam', metrics=['mse']) # 컴파일 : 모델학습 전 학습과정 설정
         early_stopping = EarlyStopping(patience=20)
         model.fit(x_train_scaled, y_train, validation_split=0.2, verbose=1, batch_size=1, epochs=100,
-                  callbacks=[early_stopping])
-        loss, mse = model.evaluate(x_test_scaled, y_test, batch_size=1)
+                  callbacks=[early_stopping]) # 학습
+        loss, mse = model.evaluate(x_test_scaled, y_test, batch_size=1) # 평가
         print('loss : ', loss)
         print('mse: ', mse)
-        y_pred = model.predict(x_test_scaled)
+        y_pred = model.predict(x_test_scaled) # 예측값
         for i in range(5):
             print(f'종가 : {y_test[i]}, 예측가 : {y_pred[i]}')
         model.save(model_save + "DNN.h5")
@@ -295,4 +297,4 @@ class LSTMEnsemble(AiTradeModel):
 
 
 if __name__ == '__main__':
-    AiTradeModel().DNN_scaled()
+    AiTradeModel().csv_to_npy()

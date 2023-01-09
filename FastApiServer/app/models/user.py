@@ -1,11 +1,36 @@
-from pydantic import BaseModel
+from pydantic import BaseModel as base, BaseConfig
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, DateTime
+from ..database import Base
 
-class User(BaseModel):
-    user_email: str
-    password: str
 
-    def get_email(self):
-        return self.user_email
+class User(Base):
+    __tablename__ = 'users'
+    user_id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    user_email = Column(String(20), nullable=False) # django의 model 역할
+    password = Column(String(20), nullable=False) # nullable:필수작성 공란안됨
+    user_name = Column(String(20), nullable=False)
+    phone = Column(String(20))
+    birth = Column(String(20))
+    address = Column(String(20))
+    job = Column(String(20))
+    user_interests = Column(String(20))
+    token = Column(String(20))
 
-    def get_password(self):
-        return self.password
+    class Config:
+        BaseConfig.arbitrary_types_allowed = True
+        allow_population_by_field_name = True
+
+
+class Post(Base):
+    __tablename__ = 'posts'
+    __abstract__ = True
+    use_in_migration = True
+    posts_id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    title = Column(String(20), nullable=False) # django의 model 역할
+    content = Column(String(20), nullable=False) # nullable:필수작성 공란안됨
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
+
+    class Config:
+        BaseConfig.arbitrary_types_allowed = True
+        allow_population_by_field_name = True

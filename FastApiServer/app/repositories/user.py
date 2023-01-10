@@ -1,11 +1,8 @@
 from sqlalchemy.orm import Session
 
 
-from app.models.user import User, Post
+from app.models.user import User
 
 
 def find_users(db: Session):
     return db.query(User).all()
-
-def find_posts(db : Session):
-    return db.query(Post).all()

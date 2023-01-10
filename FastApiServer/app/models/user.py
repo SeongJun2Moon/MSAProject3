@@ -19,18 +19,3 @@ class User(Base):
     class Config:
         BaseConfig.arbitrary_types_allowed = True
         allow_population_by_field_name = True
-
-
-class Post(Base):
-    __tablename__ = 'posts'
-    __abstract__ = True
-    use_in_migration = True
-    posts_id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
-    title = Column(String(20), nullable=False) # django의 model 역할
-    content = Column(String(20), nullable=False) # nullable:필수작성 공란안됨
-    created_at = Column(DateTime, nullable=False)
-    updated_at = Column(DateTime, nullable=False)
-
-    class Config:
-        BaseConfig.arbitrary_types_allowed = True
-        allow_population_by_field_name = True

@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 
-from app.database import engine, conn
+from app.database import conn
 from app.models.post import Post
 import pymysql
-from sqlalchemy.orm import sessionmaker
+
 pymysql.install_as_MySQLdb()
 
 def find_posts_legacy():
@@ -13,6 +13,4 @@ def find_posts_legacy():
     return cursor.fetchall()
 
 def find_posts(db: Session):
-    # Session = sessionmaker(bind=engine)
-    # session = Session()
     return db.query(Post).all()

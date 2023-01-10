@@ -45,7 +45,7 @@ urlpatterns = [
     path("exrc/dlearn/aitrader", include("exrc.dlearn.aitrader.urls")),
     path("exrc/webcrawler/webcrawler", include("exrc.webcrawler.webcrawler.urls")),
     path("exrc/nlp/samsung", include("exrc.nlp.samsung_report.urls")),
-    path("exrc/nlp/imdb", include("exrc.nlp.imdb.urls")),
+    path("exrc/nlp/positivity", include("exrc.nlp.imdb.urls")),
     path("exrc/nlp/korean_classify", include("exrc.nlp.korean_classify.urls")),
 
     path("security/users", include("security.users.urls")),

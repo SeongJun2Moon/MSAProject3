@@ -22,7 +22,7 @@ def dir_path(param):
             or (param == "aitrader") \
             or (param == "number") :
         return os.path.join(root, "exrc", "dlearn", param)
-    elif (param == "imdb") \
+    elif (param == "positivity") \
             or (param == "samsung_report") :
         return os.path.join(root, "exrc", "nlp", param)
     elif (param == "stroke") :

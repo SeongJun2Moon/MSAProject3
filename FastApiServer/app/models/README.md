@@ -15,3 +15,8 @@ class Config:
 # model 구성하는 class 안에 밑에 추가 
 __abstract__ = True
 ```
+###  sqlalchemy.exc.ArgumentError: Column expression or FROM clause expected, got <class 'app.models.user.Post'>. 
+> 해당 코드 있으면 지우기
+```python
+__abstract__ = True
+```

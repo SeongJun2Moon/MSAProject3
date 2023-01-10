@@ -12,6 +12,3 @@ class Post(BaseModel):
     class Config:
         orm_mode = True
 
-
-class PostList(Post):
-    posts: List[Post] = []

@@ -17,6 +17,9 @@ class Imdb_model:
         utils.set_random_seed(42)
         tf.config.experimental.enable_op_determinism()
         (train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=500)
+        print(train_target)
+        print(train_input
+              )
 
     def model_hook(self):
         self.check_data_set()
@@ -112,5 +115,4 @@ class NaverMoviesModel(object):
 
 
 if __name__ == '__main__':
-    model = Imdb_model()
-    model.model_hook()
+    Imdb_model()

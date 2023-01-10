@@ -17,18 +17,4 @@ class User(BaseModel):
     class Config:
         orm_mode = True
 
-class UserList(User):
-    users: List[User] = []
 
-class Post(BaseModel):
-    posts_id : int
-    title : str
-    content : str
-    created_at : str
-    updated_at : str
-
-    class Config:
-        orm_mode = True
-
-class PostList(User):
-    posts: List[Post] = []

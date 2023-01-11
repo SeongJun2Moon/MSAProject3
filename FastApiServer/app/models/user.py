@@ -1,12 +1,13 @@
 from uuid import uuid4
 from pydantic import BaseConfig
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, String
 from sqlalchemy_utils import UUIDType
 from sqlalchemy.orm import relationship
 
 from ..database import Base
+from .mixins import TimestampMixin
 
-class User(Base):
+class User(Base, TimestampMixin):
     __tablename__ = 'users'
     user_id = Column(UUIDType(binary=False), primary_key=True, default=uuid4)
     user_email = Column(String(20), nullable=False) # django의 model 역할
@@ -18,10 +19,8 @@ class User(Base):
     job = Column(String(20))
     user_interests = Column(String(20))
     token = Column(String(20))
-    # create_at = Column(String(30))
-    # update_at = Column(String(30))
 
-    articles = relationship('Articles', back_populates='user')
+    articles = relationship('Article', back_populates='user')
 
     class Config:
         BaseConfig.arbitrary_types_allowed = True

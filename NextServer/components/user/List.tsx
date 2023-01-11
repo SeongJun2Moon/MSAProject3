@@ -1,5 +1,4 @@
-import '../styles/UserList.css'
-export default function ListForm({list:[]}){
+export default function List(){
 
     return (<><h2>User List</h2>
         <table className='user-list'>

@@ -1,9 +1,12 @@
 from typing import List
 
 from pydantic import BaseModel
+from uuid import UUID
+from datetime import datetime
+from app.schemas.article import Article
 
 class User(BaseModel):
-    user_id : int
+    user_id : UUID
     user_email : str
     password : str
     user_name : str
@@ -13,8 +16,11 @@ class User(BaseModel):
     job : str
     user_interests : str
     token : str
+    create_at : datetime
+    updated_at : datetime
 
     class Config:
         orm_mode = True
 
-
+class UserDetail(User):
+    articles: List[Article] = []

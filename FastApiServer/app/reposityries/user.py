@@ -1,7 +1,7 @@
-from app.env import engine, conn
+from app.env import conn
 from app.models.user import User
 import pymysql
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session
 pymysql.install_as_MySQLdb()
 
 

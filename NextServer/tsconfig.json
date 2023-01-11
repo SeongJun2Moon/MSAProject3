@@ -30,7 +30,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "components/Home.tsx", "components/Home.tsx"  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"

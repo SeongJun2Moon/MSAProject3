@@ -1,7 +1,6 @@
-from app.env import conn
 from app.models.article import Article
 import pymysql
-from sqlalchemy.orm import sessionmaker, Session
+from sqlalchemy.orm import Session
 pymysql.install_as_MySQLdb()
 
 #
@@ -13,4 +12,6 @@ pymysql.install_as_MySQLdb()
 
 
 def find_articles(page: int, db: Session):
+    print(page)
     return db.query(Article).all()
+

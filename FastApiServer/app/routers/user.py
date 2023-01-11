@@ -1,11 +1,16 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-import app.repositories.user as dao
+import app.reposityries.user as dao
 from app.database import get_db
 from app.schemas.user import User
 
 router = APIRouter()
+
+@router.get("/{page}")
+async def get_users(page: int, db: Session = Depends(get_db)):
+    ls = dao.find_users(page, db)
+    return {"data": ls}
 
 @router.post("/")
 async def join(item: User, db: Session = Depends(get_db)):
@@ -31,13 +36,6 @@ async def update(id: str, item: str, db: Session = Depends(get_db)):
 async def delete(id: str, item: str, db: Session = Depends(get_db)):
     dao.delete(id, item, db)
     return {"data": "success"}
-
-
-@router.get("/{page}")
-async def get_users(page: int, db: Session = Depends(get_db)):
-    ls = dao.find_users(page, db)
-    return {"data": ls}
-
 
 @router.get("/email/{id}")
 async def get_user(id: str, db: Session = Depends(get_db)):

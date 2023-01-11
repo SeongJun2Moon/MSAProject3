@@ -13,8 +13,8 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 baseurl = os.path.dirname(os.path.abspath(__file__))
 
 router = APIRouter()
-router.include_router(user_router, prefix="/users",tags=["users"])
-router.include_router(article_router, prefix="/articles",tags=["articles"])
+router.include_router(user_router, prefix="/users", tags=["users"])
+router.include_router(article_router, prefix="/articles", tags=["articles"])
 
 app = FastAPI()
 app.include_router(router)
@@ -27,7 +27,6 @@ async def on_startup():
 @app.get("/")
 async def root():
     return {"message ": " Welcome Fastapi"}
-
 
 @app.get("/hello/{name}")
 async def say_hello(name: str):

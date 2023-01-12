@@ -19,7 +19,7 @@ class ScrapServeice(Scrap):
         naver_url = "https://movie.naver.com/movie/sdb/rank/rmovie.naver"
         encoding = "UTF-8"
 
-    def bugs_music(self, arg): # BeautifulSoup 기본 크롤링
+    def bugs_music(self, arg): # BeautifulSoup 기본 crawling
         soup = BeautifulSoup(urlopen(arg.domain + arg.query_string), arg.parser)
         title = {"class": arg.class_names[0]}
         artist = {"class": arg.class_names[1]}
@@ -36,7 +36,7 @@ class ScrapServeice(Scrap):
         arg.dict_to_dataframe()
         arg.dataframe_to_csv("result.csv")  # csv파일로 저장
 
-    def melon_music(self, arg): # BeautifulSoup 기본 크롤링
+    def melon_music(self, arg): # BeautifulSoup 기본 crawling
         req = urllib.request.Request(arg.domain, headers=arg.headers)
         soup = BeautifulSoup(urlopen(req), arg.parser)
         _ = 0

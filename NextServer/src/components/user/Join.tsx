@@ -17,7 +17,7 @@ export default function Join() {
 
     return (<>
         <h2>회원가입</h2>
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}  method="post" >
         
           <label htmlFor="user_email">User Email:</label>
           <input
@@ -30,7 +30,7 @@ export default function Join() {
                 message: "이메일 형식에 맞게 입력해주세요"
             }
           })}
-            type="email"
+            type="text"
             id="user_email" 
             name="user_email" 
             placeholder="name@example.com" 
@@ -59,7 +59,7 @@ export default function Join() {
             name="password" 
             placeholder="비밀번호(영문, 숫자 8자리 이상)"
             required 
-            minLength= {10} 
+            minLength= {1} 
             maxLength={20}
            />
           <br/>

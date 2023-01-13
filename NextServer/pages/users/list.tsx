@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import List from "@/components/user/List"
+import List from "@/src/components/user/List"
 
 const ListPage: NextPage = function(){
     return (<>

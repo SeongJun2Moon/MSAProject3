@@ -1,5 +1,5 @@
 import { NextPage } from "next"
-import Join from "@/components/user/Join"
+import Join from "@/src/components/user/Join"
 
 const JoinPage: NextPage = function(){
     return (<>

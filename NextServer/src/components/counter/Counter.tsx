@@ -1,8 +1,8 @@
 import styles from '@/styles/counter/Counter.module.css'
 import { useState } from 'react'; 
-import { useAppDispatch, useAppSelector} from '@/hooks'
+import { useAppDispatch, useAppSelector} from '@/src/hooks/useScript';
 import { increment, decrement, 
-     incrementAsync, selectCount } from '@/modules/counter/counterSlice'
+     incrementAsync, selectCount } from '@/src/modules/counter/counterSlice';
 
 export function Counter() {
     const count = useAppSelector(selectCount);

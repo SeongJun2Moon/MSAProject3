@@ -1,5 +1,5 @@
 from datetime import datetime
 
-def currentTime():
+def current_time():
     today = datetime.now()
     return f"{today.time()}"

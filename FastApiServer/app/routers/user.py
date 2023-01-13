@@ -1,52 +1,46 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-import app.reposityries.user as dao
-from app.admin.utils import currentTime
+import app.repositories.user as dao
+from app.admin.utils import current_time
 from app.database import get_db
 from app.schemas.user import User
 
 router = APIRouter()
 
-@router.get("/{page}")
-async def get_users(page: int, db: Session = Depends(get_db)):
-    ls = dao.find_users(page, db)
-    return {"data": ls}
-
-
-@router.post("/")
+@router.post("/join")
 async def join(item: User, db: Session = Depends(get_db)):
-    print(f"회원가입에 진입한 시간: {currentTime}")
-    user_dict = item.dict()
-    print(f"SignUp Inform : {user_dict}")
+    print(f" 회원가입에 진입한 시간: {current_time()} ")
+    print(f"SignUp Inform : {item}")
     dao.join(item, db)
     return {"data": "success"}
 
-
-@router.post("/{id}")
-async def login(id: str, item: str, db: Session = Depends(get_db)):
+@router.post("/login/{id}")
+async def login(id:str,item: User, db: Session = Depends(get_db)):
     dao.login(id, item, db)
     return {"data": "success"}
 
-
-@router.put("/{id}")
-async def update(id: str, item: str, db: Session = Depends(get_db)):
-    dao.update(id, item, db)
+@router.put("/modify/{id}")
+async def update(id:str, item: User, db: Session = Depends(get_db)):
+    dao.update(id,item,db)
     return {"data": "success"}
 
-
-@router.delete("/{id}")
-async def delete(id: str, item: str, db: Session = Depends(get_db)):
-    dao.delete(id, item, db)
+@router.delete("/delete/{id}", tags=['age'])
+async def delete(id:str, item: User, db: Session = Depends(get_db)):
+    dao.delete(id,item,db)
     return {"data": "success"}
+
+@router.get("/page/{page}")
+async def get_users(page: int, db: Session = Depends(get_db)):
+    ls = dao.find_users(page,db)
+    return {"data": ls}
 
 @router.get("/email/{id}")
 async def get_user(id: str, db: Session = Depends(get_db)):
     dao.find_user(id, db)
     return {"data": "success"}
 
-
-@router.get("/job/{search}/{no}")
-async def get_users_by_job(search: str, page: int, db: Session = Depends(get_db)):
-    dao.find_users_by_job(search, page, db)
+@router.get("/job/{search}/{page}")
+async def get_users_by_job(search:str, page: int, db: Session = Depends(get_db)):
+    dao.find_users_by_job(search, page,db)
     return {"data": "success"}

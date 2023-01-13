@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-import app.reposityries.article as dao
+import app.repositories.article as dao
 from app.database import get_db
 
 

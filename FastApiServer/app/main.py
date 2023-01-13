@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 from fastapi import FastAPI, APIRouter
 from fastapi_sqlalchemy import DBSessionMiddleware
 
@@ -17,8 +18,12 @@ router.include_router(user_router, prefix="/users", tags=["users"])
 router.include_router(article_router, prefix="/articles", tags=["articles"])
 
 app = FastAPI()
+app.router.redirect_slashes = False
 app.include_router(router)
 app.add_middleware(DBSessionMiddleware, db_url=DB_URL)
+
+logging.basicConfig()
+logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
 
 @app.on_event("startup")
 async def on_startup():

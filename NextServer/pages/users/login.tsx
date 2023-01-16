@@ -9,9 +9,6 @@ const LoginPage: NextPage = function(){
     const [loginInfo, setLoginInfo] = useState<User>({user_email:'', password:''})
     const dispatch = useDispatch()
 
-    // user_email : string,
-    // password : string,
-
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
         const { name, value} = e.currentTarget
@@ -19,12 +16,13 @@ const LoginPage: NextPage = function(){
     }
     const onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+   
         dispatch(loginRequest(loginInfo))
     }
     return (
         <>
            <Login onChange={onChange} onSubmit={onSubmit}/>
-           <GoogleLogin/>
+           <GoogleLogin onChange={onChange} onSubmit={onSubmit}/>
         </>
             
         

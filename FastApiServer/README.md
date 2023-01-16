@@ -18,3 +18,13 @@ grant all privileges on *.* to 'root'@'%' identified by 'root';
 ```shell
 chmod 644 /etc/my.cnf
 ```
+### python 내 모듈 에러 ex)not found shortuuid
+> 터미널에서 직접 들어가 재설치
+```bash
+docker ps
+docker exec -it 52af9689a913 bash
+cd /
+cd usr/local/lib/python3.9/site-packages
+pip install pyjwt
+pip install shortuuid
+```

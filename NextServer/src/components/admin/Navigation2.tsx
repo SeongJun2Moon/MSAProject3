@@ -31,6 +31,10 @@ export default function Navigation(){
           onClick={() => router.push("/users/list")}
           label="사용자 등록"
         />
+        <BottomNavigationAction
+          onClick={() => router.push("/article/write")}
+          label="글쓰기"
+        />
       </BottomNavigation>
     </Box>
     </>

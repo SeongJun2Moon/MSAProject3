@@ -10,7 +10,7 @@ export const user = {
             alert(`URL(api) is ${url}`)
             try{
                 const response : AxiosResponse<any, User[]> =
-                await axios.post(`http://localhost:8000/users/join`, payload, {headers: {
+                await axios.post(`http://127.0.0.1:8000/users/register`, payload, {headers: {
                     "Content-Type" : "application/json",
                     Authorization: "JWT fefege...",
                 }})
@@ -24,12 +24,13 @@ export const user = {
                 console.log(` ${currentTime} : userSaga 내부에서 join 실패 `)
             }
         },
+
     async login(payload: User){
         try{
             const response : AxiosResponse<any, User[]> =
             await author.post('/users/login', payload)
-            alert(` 서버에서 리턴받은 값: ${JSON.stringify(response.data)}`)
-            localStorage.setItem("loginUser", JSON.stringify(response.data))
+            alert(` 서버에서 리턴받은 값: ${JSON.stringify(response.data.email)}`)
+            localStorage.setItem("email", response.data.email)
             //return response.data
         }catch(err){
             return err;

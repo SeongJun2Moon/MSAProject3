@@ -1,13 +1,11 @@
 from typing import List, Optional
 from pydantic import BaseModel
-from uuid import UUID
-from datetime import datetime
-from app.schemas.article import Article
+from app.schemas.article import ArticleDTO
 
 class UserDTO(BaseModel):
-    user_id : Optional[UUID]
-    user_email : str
-    password : str
+    user_id : Optional[str]
+    user_email : Optional[str]
+    password : Optional[str]
     user_name : Optional[str]
     phone : Optional[str]
     birth : Optional[str]
@@ -15,11 +13,11 @@ class UserDTO(BaseModel):
     job : Optional[str]
     user_interests : Optional[str]
     token : Optional[str]
-    create_at: Optional[datetime]
-    updated_at: Optional[datetime]
+    created: Optional[str]
+    modified: Optional[str]
 
     class Config:
         orm_mode = True
 
 class UserDetail(UserDTO):
-    articles: List[Article] = []
+    articles: List[ArticleDTO] = []

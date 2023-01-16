@@ -6,3 +6,7 @@ pymysql
 FastAPI-SQLAlchemy==0.2.1
 pydantic
 sqlalchemy_utils
+fastapi-sqlalchemy
+pyjwt
+shortuuid
+passlib

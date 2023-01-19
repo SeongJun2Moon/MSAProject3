@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "shop.susers","shop.carts","shop.categories","shop.deliveries","shop.orders","shop.products",
     "security.users",
     "exrc.dlearn.fashion", "exrc.dlearn.iris",
-    "exrc.nlp.samsung_report","exrc.webcrawler.webcrawler",
+    "exrc.nlp.samsung_report","exrc.nlp.imdb",
+    "exrc.webcrawler.webcrawler",
     "rest_framework"
 ]
 

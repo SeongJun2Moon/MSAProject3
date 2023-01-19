@@ -1,5 +1,5 @@
-import { Article } from "@/src/modules/types";
-import { author } from "@/src/modules/controllers";
+import { Article } from "@/modules/types";
+import { author } from "@/modules/controllers";
 
 export class ArticleController {
     async write(writtenData: Article) : Promise<any> {

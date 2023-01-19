@@ -28,7 +28,7 @@ class NaverMovieService(object):
         url = 'https://movie.naver.com/movie/point/af/list.naver?&page='
         driver_path = path.join(dir_path("webcrawler"), "chromedriver.exe")
         file_name = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/nlp/positivity/save/naver_movie_review_corpus.csv"
-        review_train = "C:/Users/SJMoon/AIA/MSAProject/DjangoServer/exrc/nlp/positivity/data/review_train.csv"
+        review_train = "exrc/nlp/imdb/data/review_train.csv"
         encoding = "UTF-8"
         k = 0.5
         self.word_probs = []

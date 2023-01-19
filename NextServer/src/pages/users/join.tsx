@@ -1,9 +1,8 @@
+import Join from "@/components/user/Join"
 import { NextPage } from "next"
-import Join from "@/src/components/user/Join"
-
 const JoinPage: NextPage = function(){
     return (<>
       <Join/>
       </>)
 } 
-export default  JoinPage
+export default JoinPage

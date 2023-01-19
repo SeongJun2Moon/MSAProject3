@@ -28,3 +28,5 @@ cd usr/local/lib/python3.9/site-packages
 pip install pyjwt
 pip install shortuuid
 ```
+### docker compose up No such option: ??
+> docker -> api -> Dockerfile 에서 ?? 확인

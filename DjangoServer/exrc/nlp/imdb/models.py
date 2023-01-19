@@ -16,10 +16,9 @@ class Imdb_model:
         global train_input, train_target, test_input, test_target
         utils.set_random_seed(42)
         tf.config.experimental.enable_op_determinism()
-        (train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=500)
+        (train_input, train_target), (test_input, test_target) = imdb.load_data(num_words=1000)
         print(train_target)
-        print(train_input
-              )
+        print(train_input)
 
     def model_hook(self):
         self.check_data_set()

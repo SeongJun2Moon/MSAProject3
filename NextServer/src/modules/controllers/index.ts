@@ -9,7 +9,6 @@ export const client = axios.create({
         "Content-Type" : "application/json"
     }
 })
-
 // 인증 axios
 export const author = axios.create({
     baseURL: SERVER,
@@ -27,7 +26,6 @@ export const kakaoBook = axios.create({
         Authorization: `KakaoAK ${process.env.NEXT_PUBLIC_KAKAOMAP_REST_API_KEY}`
     }
 })
-
 // 이미지 업로드
 export const imageUpload = axios.create({
     baseURL: `${SERVER}`,

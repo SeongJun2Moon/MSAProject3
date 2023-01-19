@@ -1,4 +1,4 @@
-import { AppDispatch, AppState } from "@/src/modules/store"
+import { AppDispatch, AppState } from '@/modules/store';
 import {useEffect} from 'react';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 

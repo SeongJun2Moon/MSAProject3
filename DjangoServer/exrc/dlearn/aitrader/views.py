@@ -3,8 +3,6 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import JSONParser
 import tensorflow as tf
 
-from exrc.dlearn.aitrader.models import SamsungKospi
-
 @api_view(["GET"])
 @parser_classes([JSONParser])
 def aitrader(request):

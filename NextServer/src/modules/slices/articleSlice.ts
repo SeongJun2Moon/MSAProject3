@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { Article } from '@/src/modules/types'
+import { Article } from '@/modules/types'
 
 type ArticleState = {
     data: Article[]
@@ -37,4 +37,3 @@ export const {writeRequest, writeSuccess, writeFailure
 } = articleSlice.actions
 export const articleAction = actions
 export default reducer
-        

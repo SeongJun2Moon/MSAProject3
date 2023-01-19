@@ -3,10 +3,13 @@ sqlalchemy
 uvicorn
 fastapi
 pymysql
-FastAPI-SQLAlchemy==0.2.1
-pydantic
-sqlalchemy_utils
+pandas
+sqlalchemy-utils
 fastapi-sqlalchemy
 pyjwt
 shortuuid
+passlib
+fastapi-pagination
+shortuuid
+jwt
 passlib

@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm} from "react-hook-form"
-import { Article } from "@/src/modules/types"
+import { Article } from "@/modules/types"
 import { useRef } from "react"
 import { useDispatch } from "react-redux"
-import { writeRequest } from "@/src/modules/slices"
+import { writeRequest } from "@/modules/slices"
 import styled from 'styled-components';
 
 export default function AddArticle() { 
